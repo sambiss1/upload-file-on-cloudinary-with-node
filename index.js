@@ -15,14 +15,17 @@ app.get("/", (req, res) => {
 // Post single
 app.post("/upload/one", uploader.single("image"), async (req, res) => {
   const upload = await cloudinary.v2.uploader.upload(req.file.path);
+
   return res.json({
     success: 1,
     caption: "image caption",
+    title: req.body.title,
     file: {
       url: upload.secure_url,
     },
   });
 });
+
 
 // Post multiples
 app.post("/upload", uploader.array("file"), async (req, res) => {
@@ -39,10 +42,11 @@ app.post("/upload", uploader.array("file"), async (req, res) => {
 
   return res.json({
     success: true,
+    title: req.body.title,
     files: imageResponses.map((image) => image.url),
   });
 });
 
-app.listen(8000, () => {
-  console.log("Server is listening on port " + 8000);
+app.listen(8080, () => {
+  console.log("Server is listening on port " + 8080);
 });
